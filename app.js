@@ -42,7 +42,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/api/v1/todo', todo);
-app.use('/api/v1/generate_uid', generate_uid);
+app.use('/v1/todo', todo);
+app.use('/v1/generate_uid', generate_uid);
 
 module.exports = app;
