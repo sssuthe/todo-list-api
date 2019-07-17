@@ -7,13 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('todo-list-api:server');
 var http = require('http');
-var https = require('https');
+// var https = require('https');
 var fs = require("fs");
 
-var privateKey  = fs.readFileSync('localhost.key', 'utf8');
-var certificate = fs.readFileSync('localhost.crt', 'utf8');
+// var privateKey  = fs.readFileSync('localhost.key', 'utf8');
+// var certificate = fs.readFileSync('localhost.crt', 'utf8');
 
-var credentials = {key: privateKey, cert: certificate};
+// var credentials = {key: privateKey, cert: certificate};
 
 /**
  * Get port from environment and store in Express.
@@ -22,27 +22,29 @@ var credentials = {key: privateKey, cert: certificate};
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-var httpsPort = normalizePort(process.env.HTTPS_PORT || '8443');
-app.set('httpsPort', httpsPort);
+// var httpsPort = normalizePort(process.env.HTTPS_PORT || '8443');
+// app.set('httpsPort', httpsPort);
 
 /**
  * Create HTTP and HTTPS server.
  */
 
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+// var httpsServer = https.createServer(credentials, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-httpServer.listen(port);
+httpServer.listen(port,  () => {
+  console.log(`Todo-list Server Ready on port ${port}`);
+});
 httpServer.on('error', onError);
 httpServer.on('listening', onListening);
 
-httpsServer.listen(httpsPort);
-httpsServer.on('error', onErrorHTTPS);
-httpsServer.on('listening', onListeningHTTPS);
+// httpsServer.listen(httpsPort);
+// httpsServer.on('error', onErrorHTTPS);
+// httpsServer.on('listening', onListeningHTTPS);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -92,29 +94,29 @@ function onError(error) {
   }
 }
 
-function onErrorHTTPS(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+// function onErrorHTTPS(error) {
+//   if (error.syscall !== 'listen') {
+//     throw error;
+//   }
 
-  var bind = typeof httpsPort === 'string'
-    ? 'Pipe ' + httpsPort
-    : 'Port ' + httpsPort;
+//   var bind = typeof httpsPort === 'string'
+//     ? 'Pipe ' + httpsPort
+//     : 'Port ' + httpsPort;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
+//   // handle specific listen errors with friendly messages
+//   switch (error.code) {
+//     case 'EACCES':
+//       console.error(bind + ' requires elevated privileges');
+//       process.exit(1);
+//       break;
+//     case 'EADDRINUSE':
+//       console.error(bind + ' is already in use');
+//       process.exit(1);
+//       break;
+//     default:
+//       throw error;
+//   }
+// }
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -127,10 +129,10 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-function onListeningHTTPS() {
-  var addr = httpsServer.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+// function onListeningHTTPS() {
+//   var addr = httpsServer.address();
+//   var bind = typeof addr === 'string'
+//     ? 'pipe ' + addr
+//     : 'port ' + addr.port;
+//   debug('Listening on ' + bind);
+// }
