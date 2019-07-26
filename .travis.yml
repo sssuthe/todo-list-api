@@ -21,7 +21,7 @@ script:
 deploy:
   provider: elasticbeanstalk
   region: "us-east-1"
-  app: " shark-ops"
+  app: "shark-ops"
   env: "SharkOps-env"
   bucket_name: "elasticbeanstalk-us-east-1-033966497385"
   bucket_path: "shark-ops"
