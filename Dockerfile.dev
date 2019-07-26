@@ -8,6 +8,8 @@ COPY ./package.json ./
 
 RUN npm install express express-jwt jwks-rsa npm-run-all
 
+EXPOSE 80
+
 COPY . .
 
 CMD ["npm", "run", "start"]
