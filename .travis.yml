@@ -10,9 +10,23 @@ env:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t sssuthe/todo-list-server:latest -t sssuthe/todo-list-server:$SHA -f Dockerfile.dev .
+  - docker push sssuthe/todo-list-server:latest
+  - docker push sssuthe/todo-list-server:$SHA
 
 script:
   - docker run -e CI=true sssuthe/todo-list-server:latest npm run test -- --coverage
 
-
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: " shark-ops"
+  env: "SharkOps-env"
+  bucket_name: "elasticbeanstalk-us-east-1-033966497385"
+  bucket_path: "shark-ops"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$AWS_SECRET_KEY"
