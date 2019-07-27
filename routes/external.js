@@ -28,6 +28,7 @@ const checkJwt = jwt({
 
 // Define an endpoint that must be called with an access token
 router.get("/", checkJwt, (req, res) => {
+  
   res.send({
     msg: "Your Access Token was successfully validated!"
   });
